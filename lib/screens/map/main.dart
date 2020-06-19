@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -90,7 +92,7 @@ class _MapState extends State<Map> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 8),
+                      padding: EdgeInsets.symmetric(vertical: Platform.isAndroid ? 8 : 0, horizontal: 8),
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                         decoration: BoxDecoration(

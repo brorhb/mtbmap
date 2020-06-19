@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/main.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +17,11 @@ class _SearchBoxState extends State<SearchBox> {
   @override
   Widget build(BuildContext context) {
     OpenStreetmapProvider openStreetmapProvider = Provider.of<OpenStreetmapProvider>(context);
+
+    double paddingTop = Platform.isAndroid ? 8 : 0;
+
     return Padding(
-      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: EdgeInsets.fromLTRB(8, paddingTop, 8, 0),
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [
