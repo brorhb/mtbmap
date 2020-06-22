@@ -1,4 +1,4 @@
-package com.example.mtbmap
+package dev.brurberg.mtbmap
 
 import io.flutter.embedding.android.FlutterActivity
 
