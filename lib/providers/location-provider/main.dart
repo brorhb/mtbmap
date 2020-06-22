@@ -20,7 +20,6 @@ class LocationProvider with ChangeNotifier {
   Stream<Map<String, double>> get selectedLocation => _selectedLocation.stream;
 
   Function(Map<String, double>) get setLocation => (val) {
-    print(val);
     _selectedLocation.sink.add({
       "lat": val["lat"],
       "lon": val["lon"]

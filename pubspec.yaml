@@ -30,6 +30,7 @@ dependencies:
   dio: ^3.0.9
   property_change_notifier: ^0.2.0
   rxdart: ^0.24.1
+  dio_http_cache: ^0.2.7
 
 
   # The following adds the Cupertino Icons font to your application.
