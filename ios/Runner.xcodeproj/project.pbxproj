@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		32780EF725023AA60049E0C1 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32780EF625023AA60049E0C1 /* StoreKit.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		65733A155EF1CEFDB0101A74 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C616701DE2849E3F950239FA /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -33,6 +34,7 @@
 		13F552D5EF83ED01C08011F1 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		32780EF625023AA60049E0C1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		32D7A461249C96D4002D1F41 /* MTBMap Norge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MTBMap Norge.entitlements"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3C17B741823C21F739AD9ECA /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65733A155EF1CEFDB0101A74 /* Pods_Runner.framework in Frameworks */,
+				32780EF725023AA60049E0C1 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +132,7 @@
 		E011D276D62DB9109CCCE7AC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				32780EF625023AA60049E0C1 /* StoreKit.framework */,
 				C616701DE2849E3F950239FA /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
@@ -385,6 +389,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.brurberg.mtbmap;
 				PRODUCT_NAME = "MTBMap Norge";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -529,6 +534,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.brurberg.mtbmap;
 				PRODUCT_NAME = "MTBMap Norge";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -565,6 +571,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.brurberg.mtbmap;
 				PRODUCT_NAME = "MTBMap Norge";
 				PROVISIONING_PROFILE_SPECIFIER = "";

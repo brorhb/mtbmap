@@ -174,6 +174,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.1"
+  flutter_compass:
+    dependency: "direct main"
+    description:
+      name: flutter_compass
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.2+1"
+  flutter_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   flutter_image:
     dependency: transitive
     description:
@@ -240,6 +254,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.12"
+  in_app_purchase:
+    dependency: "direct main"
+    description:
+      name: in_app_purchase
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.4+5"
   intl:
     dependency: transitive
     description:
@@ -415,6 +436,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
+  platform_detect:
+    dependency: transitive
+    description:
+      name: platform_detect
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -490,6 +518,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliding_up_panel:
+    dependency: "direct main"
+    description:
+      name: sliding_up_panel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   source_gen:
     dependency: transitive
     description:
@@ -588,6 +623,41 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.5.0"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+1"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+7"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   uuid:
     dependency: transitive
     description:

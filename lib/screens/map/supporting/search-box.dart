@@ -13,10 +13,12 @@ class SearchBox extends StatefulWidget {
 
 class _SearchBoxState extends State<SearchBox> {
   var _controller = TextEditingController();
+  bool showDrawer = false;
 
   @override
   Widget build(BuildContext context) {
-    OpenStreetmapProvider openStreetmapProvider = Provider.of<OpenStreetmapProvider>(context);
+    OpenStreetmapProvider openStreetmapProvider =
+        Provider.of<OpenStreetmapProvider>(context);
 
     double paddingTop = Platform.isAndroid ? 8 : 0;
 
@@ -24,16 +26,12 @@ class _SearchBoxState extends State<SearchBox> {
       padding: EdgeInsets.fromLTRB(8, paddingTop, 8, 0),
       child: Container(
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black38,
-              blurRadius: 8.0,
-              offset: Offset(8, 4)
-            )
-          ],
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8))
-        ),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black38, blurRadius: 8.0, offset: Offset(8, 4))
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         child: Padding(
           padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
           child: TextField(
@@ -48,20 +46,22 @@ class _SearchBoxState extends State<SearchBox> {
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
-              contentPadding: EdgeInsets.only(
-                left: 15, bottom: 11, top: 15, right: 15),
-              suffixIcon: FocusScope.of(context).hasFocus ? IconButton(
-                icon: Icon(Icons.cancel),
-                onPressed: () {
-                  FocusScope.of(context).unfocus();
-                  _controller.clear();
-                  openStreetmapProvider.clearSearch();
-                },
-              ) : Icon(Icons.search)
+              contentPadding:
+                  EdgeInsets.only(left: 15, bottom: 11, top: 15, right: 15),
+              suffixIcon: FocusScope.of(context).hasFocus
+                  ? IconButton(
+                      icon: Icon(Icons.cancel),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        _controller.clear();
+                        openStreetmapProvider.clearSearch();
+                      },
+                    )
+                  : Icon(Icons.search),
             ),
           ),
         ),
-      ), 
+      ),
     );
   }
 }

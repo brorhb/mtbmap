@@ -9,57 +9,57 @@ Details detailsFromJson(dynamic str) => Details.fromJson(str);
 String detailsToJson(Details data) => json.encode(data.toJson());
 
 class Details {
-    Details({
-        this.placeId,
-        this.parentPlaceId,
-        this.osmType,
-        this.osmId,
-        this.category,
-        this.type,
-        this.adminLevel,
-        this.localname,
-        this.names,
-        this.addresstags,
-        this.housenumber,
-        this.calculatedPostcode,
-        this.countryCode,
-        this.indexedDate,
-        this.importance,
-        this.calculatedImportance,
-        this.extratags,
-        this.calculatedWikipedia,
-        this.rankAddress,
-        this.rankSearch,
-        this.isarea,
-        this.centroid,
-        this.geometry,
-    });
+  Details({
+    this.placeId,
+    this.parentPlaceId,
+    this.osmType,
+    this.osmId,
+    this.category,
+    this.type,
+    this.adminLevel,
+    this.localname,
+    this.names,
+    this.addresstags,
+    this.housenumber,
+    this.calculatedPostcode,
+    this.countryCode,
+    this.indexedDate,
+    this.importance,
+    this.calculatedImportance,
+    this.extratags,
+    this.calculatedWikipedia,
+    this.rankAddress,
+    this.rankSearch,
+    this.isarea,
+    this.centroid,
+    this.geometry,
+  });
 
-    int placeId;
-    int parentPlaceId;
-    String osmType;
-    int osmId;
-    String category;
-    String type;
-    int adminLevel;
-    String localname;
-    Names names;
-    List<dynamic> addresstags;
-    dynamic housenumber;
-    dynamic calculatedPostcode;
-    String countryCode;
-    DateTime indexedDate;
-    int importance;
-    double calculatedImportance;
-    Extratags extratags;
-    dynamic calculatedWikipedia;
-    int rankAddress;
-    int rankSearch;
-    bool isarea;
-    Centroid centroid;
-    Centroid geometry;
+  int placeId;
+  int parentPlaceId;
+  String osmType;
+  int osmId;
+  String category;
+  String type;
+  int adminLevel;
+  String localname;
+  Names names;
+  List<dynamic> addresstags;
+  dynamic housenumber;
+  dynamic calculatedPostcode;
+  String countryCode;
+  DateTime indexedDate;
+  int importance;
+  double calculatedImportance;
+  Extratags extratags;
+  dynamic calculatedWikipedia;
+  int rankAddress;
+  int rankSearch;
+  bool isarea;
+  Centroid centroid;
+  Centroid geometry;
 
-    factory Details.fromJson(Map<String, dynamic> json) => Details(
+  factory Details.fromJson(Map<String, dynamic> json) => Details(
         placeId: json["place_id"],
         parentPlaceId: json["parent_place_id"],
         osmType: json["osm_type"],
@@ -83,9 +83,9 @@ class Details {
         isarea: json["isarea"],
         centroid: Centroid.fromJson(json["centroid"]),
         geometry: Centroid.fromJson(json["geometry"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "place_id": placeId,
         "parent_place_id": parentPlaceId,
         "osm_type": osmType,
@@ -109,61 +109,62 @@ class Details {
         "isarea": isarea,
         "centroid": centroid.toJson(),
         "geometry": geometry.toJson(),
-    };
+      };
 }
 
 class Centroid {
-    Centroid({
-        this.type,
-        this.coordinates,
-    });
+  Centroid({
+    this.type,
+    this.coordinates,
+  });
 
-    String type;
-    List<double> coordinates;
+  String type;
+  List<double> coordinates;
 
-    factory Centroid.fromJson(Map<String, dynamic> json) => Centroid(
+  factory Centroid.fromJson(Map<String, dynamic> json) => Centroid(
         type: json["type"],
-        coordinates: List<double>.from(json["coordinates"].map((x) => x.toDouble())),
-    );
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "type": type,
         "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
-    };
+      };
 }
 
 class Extratags {
-    Extratags({
-        this.mtbName,
-        this.mtbScale,
-    });
+  Extratags({
+    this.mtbName,
+    this.mtbScale,
+  });
 
-    String mtbName;
-    String mtbScale;
+  String mtbName;
+  String mtbScale;
 
-    factory Extratags.fromJson(Map<String, dynamic> json) => Extratags(
+  factory Extratags.fromJson(Map<String, dynamic> json) => Extratags(
         mtbName: json["mtb:name"],
         mtbScale: json["mtb:scale"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "mtb:name": mtbName,
         "mtb:scale": mtbScale,
-    };
+      };
 }
 
 class Names {
-    Names({
-        this.name,
-    });
+  Names({
+    this.name,
+  });
 
-    String name;
+  String name;
 
-    factory Names.fromJson(Map<String, dynamic> json) => Names(
+  factory Names.fromJson(Map<String, dynamic> json) => Names(
         name: json["name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "name": name,
-    };
+      };
 }

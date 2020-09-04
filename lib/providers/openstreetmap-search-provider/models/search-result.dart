@@ -1,39 +1,41 @@
 import 'dart:convert';
 
-List<SearchResult> searchResultFromJson(dynamic data) => List<SearchResult>.from(data.map((x) => SearchResult.fromJson(x)));
+List<SearchResult> searchResultFromJson(dynamic data) =>
+    List<SearchResult>.from(data.map((x) => SearchResult.fromJson(x)));
 
-String searchResultToJson(List<SearchResult> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String searchResultToJson(List<SearchResult> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SearchResult {
-    SearchResult({
-        this.placeId,
-        this.licence,
-        this.osmType,
-        this.osmId,
-        this.boundingbox,
-        this.lat,
-        this.lon,
-        this.displayName,
-        this.searchResultClass,
-        this.type,
-        this.importance,
-        this.icon,
-    });
+  SearchResult({
+    this.placeId,
+    this.licence,
+    this.osmType,
+    this.osmId,
+    this.boundingbox,
+    this.lat,
+    this.lon,
+    this.displayName,
+    this.searchResultClass,
+    this.type,
+    this.importance,
+    this.icon,
+  });
 
-    int placeId;
-    String licence;
-    OsmType osmType;
-    int osmId;
-    List<String> boundingbox;
-    String lat;
-    String lon;
-    String displayName;
-    String searchResultClass;
-    String type;
-    double importance;
-    String icon;
+  int placeId;
+  String licence;
+  OsmType osmType;
+  int osmId;
+  List<String> boundingbox;
+  String lat;
+  String lon;
+  String displayName;
+  String searchResultClass;
+  String type;
+  double importance;
+  String icon;
 
-    factory SearchResult.fromJson(Map<String, dynamic> json) => SearchResult(
+  factory SearchResult.fromJson(Map<String, dynamic> json) => SearchResult(
         placeId: json["place_id"],
         licence: json["licence"],
         osmType: osmTypeValues.map[json["osm_type"]],
@@ -46,9 +48,9 @@ class SearchResult {
         type: json["type"],
         importance: json["importance"].toDouble(),
         icon: json["icon"] == null ? null : json["icon"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "place_id": placeId,
         "licence": licence,
         "osm_type": osmTypeValues.reverse[osmType],
@@ -61,27 +63,24 @@ class SearchResult {
         "type": type,
         "importance": importance,
         "icon": icon == null ? null : icon,
-    };
+      };
 }
 
 enum OsmType { RELATION, NODE, WAY }
 
-final osmTypeValues = EnumValues({
-    "node": OsmType.NODE,
-    "relation": OsmType.RELATION,
-    "way": OsmType.WAY
-});
+final osmTypeValues = EnumValues(
+    {"node": OsmType.NODE, "relation": OsmType.RELATION, "way": OsmType.WAY});
 
 class EnumValues<T> {
-    Map<String, T> map;
-    Map<T, String> reverseMap;
+  Map<String, T> map;
+  Map<T, String> reverseMap;
 
-    EnumValues(this.map);
+  EnumValues(this.map);
 
-    Map<T, String> get reverse {
-        if (reverseMap == null) {
-            reverseMap = map.map((k, v) => new MapEntry(v, k));
-        }
-        return reverseMap;
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
     }
+    return reverseMap;
+  }
 }

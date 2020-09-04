@@ -9,31 +9,25 @@ class Networking {
 
   Networking() {
     _dio = Dio();
-    _dio.interceptors.add(
-      DioCacheManager(
-        CacheConfig(
-          baseUrl: "https://nominatim.openstreetmap.org"
-        )
-      ).interceptor
-    );
+    _dio.interceptors.add(DioCacheManager(
+            CacheConfig(baseUrl: "https://nominatim.openstreetmap.org"))
+        .interceptor);
   }
 
   Future<List<SearchResult>> fetch(String query) async {
     final response = await _dio.get(
-      "https://nominatim.openstreetmap.org/search/?q=$query&format=json&addressdetails=1&countrycodes=no",
-      options: buildCacheOptions(Duration(days: 7))
-    );
+        "https://nominatim.openstreetmap.org/search/?q=$query&format=json&addressdetails=1&countrycodes=no",
+        options: buildCacheOptions(Duration(days: 7)));
     return searchResultFromJson(response.data);
   }
 
   Future<dynamic> fetchDetails(int placeId) async {
     try {
       final response = await _dio.get(
-        "https://nominatim.openstreetmap.org/details?&place_id=$placeId&format=json",
-        options: buildCacheOptions(Duration(days: 7))
-      );
+          "https://nominatim.openstreetmap.org/details?&place_id=$placeId&format=json",
+          options: buildCacheOptions(Duration(days: 7)));
       return detailsFromJson(response.data);
-    } catch(err) {
+    } catch (err) {
       print(err);
       return null;
     }
@@ -41,8 +35,7 @@ class Networking {
 
   Future<ReverseResult> reverseFetch(double lat, double lon) async {
     Response response = await _dio.get(
-      "https://nominatim.openstreetmap.org/reverse?format=geojson&lat=$lat&lon=$lon"
-    );
+        "https://nominatim.openstreetmap.org/reverse?format=geojson&lat=$lat&lon=$lon");
     return reverseResultFromJson(response.data);
   }
 }

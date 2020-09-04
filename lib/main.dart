@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mtbmap/providers/in-app-purchase-provider.dart';
 import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/main.dart';
+import 'package:mtbmap/screens/app.dart';
 import 'package:provider/provider.dart';
-import "./screens/map/main.dart";
 
 void main() {
-  runApp(App());
+  runApp(EntryPoint());
 }
 
-class App extends StatelessWidget {
+class EntryPoint extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -22,13 +23,15 @@ class App extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider<OpenStreetmapProvider>(
-            create: (_) => OpenStreetmapProvider()
-          ),
+              create: (_) => OpenStreetmapProvider()),
           ChangeNotifierProvider<LocationProvider>(
             create: (_) => LocationProvider(),
+          ),
+          ChangeNotifierProvider<IAPProvider>(
+            create: (_) => IAPProvider(),
           )
         ],
-        child: Map(),
+        child: App(),
       ),
     );
   }
