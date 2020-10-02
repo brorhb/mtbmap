@@ -11,29 +11,20 @@ class MapActions extends StatefulWidget {
 }
 
 class _MapActionsState extends State<MapActions> {
-  Modes activeMode = Modes.nothing;
+  Modes activeMode = Modes.getPosition;
 
+  // ignore: missing_return
   IconData _getIcon() {
     switch (activeMode) {
-      case Modes.nothing:
-        return Feather.map_pin;
       case Modes.getPosition:
-        return Feather.navigation_2;
+        return Feather.unlock;
       case Modes.lock:
-        return Feather.map;
+        return Feather.lock;
     }
   }
 
   _action(LocationProvider locationProvider) async {
     switch (activeMode) {
-      case Modes.nothing:
-        setState(() {
-          activeMode = Modes.getPosition;
-        });
-        var deviceLocation = await locationProvider.getDeviceLocation();
-        locationProvider.setLocation(
-            {"lat": deviceLocation.latitude, "lon": deviceLocation.longitude});
-        break;
       case Modes.getPosition:
         setState(() {
           activeMode = Modes.lock;
@@ -42,7 +33,7 @@ class _MapActionsState extends State<MapActions> {
         break;
       case Modes.lock:
         setState(() {
-          activeMode = Modes.nothing;
+          activeMode = Modes.getPosition;
         });
         locationProvider.toggleTracking(false);
         break;
@@ -63,4 +54,4 @@ class _MapActionsState extends State<MapActions> {
   }
 }
 
-enum Modes { nothing, getPosition, lock }
+enum Modes { getPosition, lock }
