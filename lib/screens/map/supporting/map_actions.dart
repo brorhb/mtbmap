@@ -24,7 +24,6 @@ class _MapActionsState extends State<MapActions> {
   }
 
   _action(LocationProvider locationProvider) async {
-    print("test");
     switch (activeMode) {
       case Modes.getPosition:
         setState(() {
