@@ -10,16 +10,19 @@ class LocationProvider with ChangeNotifier {
 
   void init() async {
     LocationData deviceLocation = await getDeviceLocation();
-    setLocation(
-        {"lat": deviceLocation.latitude, "lon": deviceLocation.longitude});
+    if (deviceLocation.latitude != null && deviceLocation.longitude != null) {
+      setLocation(
+          {"lat": deviceLocation.latitude!, "lon": deviceLocation.longitude!});
+    }
   }
 
+  // ignore: close_sinks
   final _selectedLocation = BehaviorSubject<Map<String, double>>();
   Stream<Map<String, double>> get selectedLocation => _selectedLocation.stream;
-  Function(Map<String, double>) get setLocation => (val) {
-        _selectedLocation.sink.add({"lat": val["lat"], "lon": val["lon"]});
+  Function(Map<String, double>) get setLocation => (Map<String, double> val) {
+        _selectedLocation.sink.add({"lat": val["lat"]!, "lon": val["lon"]!});
       };
-
+  // ignore: close_sinks
   final _speed = BehaviorSubject<int>();
   Stream<int> get speed => _speed.stream;
   Function(int) get _setSpeed => (val) {
@@ -31,6 +34,7 @@ class LocationProvider with ChangeNotifier {
         return FlutterCompass.events;
       };
 
+  // ignore: close_sinks
   final _altitude = BehaviorSubject<int>();
   Stream<int> get altitude => _altitude.stream;
   Function(int) get _setAltitude => (val) {
@@ -45,17 +49,19 @@ class LocationProvider with ChangeNotifier {
   Function(bool) get toggleTracking => (bool val) async {
         _tracking = val;
         notifyListeners();
-        Stream<LocationData> stream = await getDeviceLocationStream();
-        if (val) {
+        Stream<LocationData>? stream = await getDeviceLocationStream();
+        if (val && stream != null) {
           stream.listen((LocationData event) {
             if (tracking()) {
-              _setSpeed((event.speed * 3.6).round());
-              _setAltitude(event.altitude.round());
-              setLocation({"lat": event.latitude, "lon": event.longitude});
+              double speed = event.speed ?? 0;
+              double altitude = event.altitude ?? 0;
+              _setSpeed((speed * 3.6).round());
+              _setAltitude(altitude.round());
+              setLocation({"lat": event.latitude!, "lon": event.longitude!});
             }
           });
         } else {
-          stream.drain();
+          stream?.drain();
         }
       };
 
@@ -83,7 +89,7 @@ class LocationProvider with ChangeNotifier {
         return await location.getLocation();
       };
 
-  Future<Stream> getDeviceLocationStream() async {
+  Future<Stream<LocationData>?> getDeviceLocationStream() async {
     Location location = new Location();
 
     bool _serviceEnabled;

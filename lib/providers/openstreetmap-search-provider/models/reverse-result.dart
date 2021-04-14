@@ -11,9 +11,9 @@ String reverseResultToJson(ReverseResult data) => json.encode(data.toJson());
 
 class ReverseResult {
   ReverseResult({
-    this.type,
-    this.licence,
-    this.features,
+    required this.type,
+    required this.licence,
+    required this.features,
   });
 
   String type;
@@ -36,10 +36,10 @@ class ReverseResult {
 
 class Feature {
   Feature({
-    this.type,
-    this.properties,
-    this.bbox,
-    this.geometry,
+    required this.type,
+    required this.properties,
+    required this.bbox,
+    required this.geometry,
   });
 
   String type;
@@ -64,8 +64,8 @@ class Feature {
 
 class Geometry {
   Geometry({
-    this.type,
-    this.coordinates,
+    required this.type,
+    required this.coordinates,
   });
 
   String type;
@@ -85,17 +85,17 @@ class Geometry {
 
 class Properties {
   Properties({
-    this.placeId,
-    this.osmType,
-    this.osmId,
-    this.placeRank,
-    this.category,
-    this.type,
-    this.importance,
-    this.addresstype,
-    this.name,
-    this.displayName,
-    this.address,
+    required this.placeId,
+    required this.osmType,
+    required this.osmId,
+    required this.placeRank,
+    required this.category,
+    required this.type,
+    required this.importance,
+    required this.addresstype,
+    required this.name,
+    required this.displayName,
+    required this.address,
   });
 
   int placeId;
@@ -141,13 +141,13 @@ class Properties {
 
 class Address {
   Address({
-    this.road,
-    this.hamlet,
-    this.town,
-    this.municipality,
-    this.county,
-    this.country,
-    this.countryCode,
+    required this.road,
+    required this.hamlet,
+    required this.town,
+    required this.municipality,
+    required this.county,
+    required this.country,
+    required this.countryCode,
   });
 
   String road;

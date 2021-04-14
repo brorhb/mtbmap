@@ -3,7 +3,7 @@ import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:provider/provider.dart';
 
 class Speed extends StatelessWidget {
-  const Speed({Key key}) : super(key: key);
+  const Speed({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

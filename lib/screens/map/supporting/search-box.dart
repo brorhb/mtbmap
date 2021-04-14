@@ -5,7 +5,7 @@ import 'package:mtbmap/providers/openstreetmap-search-provider/main.dart';
 import 'package:provider/provider.dart';
 
 class SearchBox extends StatefulWidget {
-  SearchBox({Key key}) : super(key: key);
+  SearchBox({Key? key}) : super(key: key);
 
   @override
   _SearchBoxState createState() => _SearchBoxState();

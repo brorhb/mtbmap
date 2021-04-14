@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Panel extends StatelessWidget {
-  const Panel({Key key, this.sc}) : super(key: key);
-  final ScrollController sc;
+  const Panel({Key? key, this.sc}) : super(key: key);
+  final ScrollController? sc;
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +67,7 @@ class Panel extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: 20),
           ),
-          if (Platform.isIOS && iapProvider.available)
-            Tips()
+          if (Platform.isIOS && iapProvider.available) Tips()
         ],
       ),
     );
@@ -77,32 +76,38 @@ class Panel extends StatelessWidget {
 
 class Tips extends StatelessWidget {
   const Tips({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     IAPProvider iapProvider = Provider.of<IAPProvider>(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-            "Liker du appen godt? Og skulle du føle deg gavmild? Og har lyst til å spandere et par kaffekapsler på meg, så blir jeg ikke lei meg 🤷‍♂️"),
-        SizedBox(
-          width: double.infinity,
-          child: FlatButton(
-            color: Colors.lightBlue,
-            child: Text(
-              "Tips ☕️",
-              style: TextStyle(color: Colors.white),
+    List<ProductDetails> productDetails = iapProvider.products;
+    if (productDetails.isNotEmpty)
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+              "Liker du appen godt? Og skulle du føle deg gavmild? Og har lyst til å spandere et par kaffekapsler på meg, så blir jeg ikke lei meg 🤷‍♂️"),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.lightBlue),
+              ),
+              child: Text(
+                "Tips ☕️",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                print(productDetails);
+                //iapProvider.buyProduct(productDetails);
+              },
             ),
-            onPressed: () {
-              ProductDetails productDetails = iapProvider.products.first;
-              iapProvider.buyProduct(productDetails);
-            },
-          ),
-        )
-      ],
-    );
+          )
+        ],
+      );
+    else
+      return Container();
   }
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:mtbmap/screens/map/main.dart';
 import 'package:mtbmap/screens/map/supporting/map_actions.dart';
 import 'package:mtbmap/screens/panel/main.dart';
-import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'map/supporting/search-box.dart';
 import 'map/supporting/search-results.dart';
@@ -15,8 +13,8 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final double _initFabHeight = 120.0;
-  double _fabHeight;
-  double _panelHeightOpen;
+  late double _fabHeight;
+  late double _panelHeightOpen;
   double _panelHeightClosed = 95.0;
 
   @override

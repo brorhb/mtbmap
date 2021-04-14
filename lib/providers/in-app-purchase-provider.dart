@@ -50,7 +50,7 @@ class IAPProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  StreamSubscription _subscription;
+  late StreamSubscription _subscription;
 
   @override
   void dispose() {

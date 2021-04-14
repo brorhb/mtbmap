@@ -5,7 +5,7 @@ import 'package:mtbmap/providers/openstreetmap-search-provider/models/search-res
 import 'package:provider/provider.dart';
 
 class SearchResults extends StatelessWidget {
-  const SearchResults({Key key}) : super(key: key);
+  const SearchResults({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

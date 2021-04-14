@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
 class MapMarker extends StatelessWidget {
-  const MapMarker({Key key}) : super(key: key);
+  const MapMarker({Key? key}) : super(key: key);
 
   Widget _marker() {
     return Container(
@@ -29,14 +30,14 @@ class MapMarker extends StatelessWidget {
     LocationProvider locationProvider = Provider.of<LocationProvider>(context);
     return StreamBuilder(
       stream: locationProvider.direction(),
-      builder: (context, AsyncSnapshot<double> snapshot) {
+      builder: (context, AsyncSnapshot<CompassEvent> snapshot) {
         return Stack(children: <Widget>[
           if (snapshot.hasData)
             Transform(
               transform: Matrix4.rotationZ(pi),
               alignment: Alignment.center,
               child: RotationTransition(
-                turns: AlwaysStoppedAnimation(snapshot.data / 360),
+                turns: AlwaysStoppedAnimation(snapshot.data!.heading! / 360),
                 child:
                     CustomPaint(size: Size(100, 100), painter: DrawTriangle()),
               ),
@@ -49,7 +50,7 @@ class MapMarker extends StatelessWidget {
 }
 
 class DrawTriangle extends CustomPainter {
-  Paint _paint;
+  late Paint _paint;
 
   @override
   void paint(Canvas canvas, Size size) {

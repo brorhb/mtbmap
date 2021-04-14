@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class MapView extends StatefulWidget {
   MapView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -20,9 +20,10 @@ class _MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     LocationProvider locationProvider = Provider.of<LocationProvider>(context);
-    locationProvider.selectedLocation.listen((event) async {
-      double lat = event["lat"];
-      double lon = event["lon"];
+    locationProvider.selectedLocation.listen((Map<String, double> event) async {
+      print("event $event");
+      double lat = event["lat"]!;
+      double lon = event["lon"]!;
       if (locationProvider.tracking()) {
         _mapController.move(LatLng(lat, lon), 14);
       } else {
@@ -32,9 +33,9 @@ class _MapViewState extends State<MapView> {
     return Container(
         child: StreamBuilder(
       stream: locationProvider.selectedLocation,
-      builder: (context, snapshot) {
-        double lat = snapshot.hasData ? snapshot.data["lat"] : 62.5942;
-        double lon = snapshot.hasData ? snapshot.data["lon"] : 9.6912;
+      builder: (context, AsyncSnapshot<Map<String, double>> snapshot) {
+        double lat = snapshot.hasData ? snapshot.data!["lat"]! : 62.5942;
+        double lon = snapshot.hasData ? snapshot.data!["lon"]! : 9.6912;
         return FlutterMap(
           mapController: _mapController,
           options: MapOptions(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:provider/provider.dart';
 
 class MapActions extends StatefulWidget {
-  const MapActions({Key key}) : super(key: key);
+  const MapActions({Key? key}) : super(key: key);
 
   @override
   _MapActionsState createState() => _MapActionsState();
@@ -17,9 +17,9 @@ class _MapActionsState extends State<MapActions> {
   IconData _getIcon() {
     switch (activeMode) {
       case Modes.getPosition:
-        return Feather.unlock;
+        return FeatherIcons.unlock;
       case Modes.lock:
-        return Feather.lock;
+        return FeatherIcons.lock;
     }
   }
 

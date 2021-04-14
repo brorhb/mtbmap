@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:provider/provider.dart';
 
 class Direction extends StatelessWidget {
-  const Direction({Key key}) : super(key: key);
+  const Direction({Key? key}) : super(key: key);
 
   String _getDirection(int val) {
     if (val >= 0 && val < 22) {
@@ -32,10 +33,10 @@ class Direction extends StatelessWidget {
     LocationProvider locationProvider = Provider.of<LocationProvider>(context);
     return StreamBuilder(
       stream: locationProvider.direction(),
-      builder: (context, AsyncSnapshot<double> snapshot) {
+      builder: (context, AsyncSnapshot<CompassEvent> snapshot) {
         if (snapshot.hasData) {
           return Text(
-            _getDirection(snapshot.data.round()),
+            _getDirection(snapshot.data!.heading!.round()),
             style: TextStyle(fontWeight: FontWeight.bold),
           );
         } else {

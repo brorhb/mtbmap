@@ -25,10 +25,8 @@ class OpenStreetmapProvider extends ChangeNotifier {
   Future<Details> getDetails(double lat, double lon) async {
     ReverseResult reverseResult = await _networking.reverseFetch(lat, lon);
     Details details;
-    if (reverseResult.features?.first?.properties?.placeId != null) {
-      details = await _networking
-          .fetchDetails(reverseResult.features.first.properties.placeId);
-    }
+    details = await _networking
+        .fetchDetails(reverseResult.features.first.properties.placeId);
     return details;
   }
 }

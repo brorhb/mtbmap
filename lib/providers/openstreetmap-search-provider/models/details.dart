@@ -10,29 +10,29 @@ String detailsToJson(Details data) => json.encode(data.toJson());
 
 class Details {
   Details({
-    this.placeId,
-    this.parentPlaceId,
-    this.osmType,
-    this.osmId,
-    this.category,
-    this.type,
-    this.adminLevel,
-    this.localname,
-    this.names,
-    this.addresstags,
+    required this.placeId,
+    required this.parentPlaceId,
+    required this.osmType,
+    required this.osmId,
+    required this.category,
+    required this.type,
+    required this.adminLevel,
+    required this.localname,
+    required this.names,
+    required this.addresstags,
     this.housenumber,
     this.calculatedPostcode,
-    this.countryCode,
-    this.indexedDate,
-    this.importance,
-    this.calculatedImportance,
-    this.extratags,
+    required this.countryCode,
+    required this.indexedDate,
+    required this.importance,
+    required this.calculatedImportance,
+    required this.extratags,
     this.calculatedWikipedia,
-    this.rankAddress,
-    this.rankSearch,
-    this.isarea,
-    this.centroid,
-    this.geometry,
+    required this.rankAddress,
+    required this.rankSearch,
+    required this.isarea,
+    required this.centroid,
+    required this.geometry,
   });
 
   int placeId;
@@ -114,8 +114,8 @@ class Details {
 
 class Centroid {
   Centroid({
-    this.type,
-    this.coordinates,
+    required this.type,
+    required this.coordinates,
   });
 
   String type;
@@ -135,8 +135,8 @@ class Centroid {
 
 class Extratags {
   Extratags({
-    this.mtbName,
-    this.mtbScale,
+    required this.mtbName,
+    required this.mtbScale,
   });
 
   String mtbName;
@@ -155,7 +155,7 @@ class Extratags {
 
 class Names {
   Names({
-    this.name,
+    required this.name,
   });
 
   String name;

@@ -8,23 +8,23 @@ String searchResultToJson(List<SearchResult> data) =>
 
 class SearchResult {
   SearchResult({
-    this.placeId,
-    this.licence,
-    this.osmType,
-    this.osmId,
-    this.boundingbox,
-    this.lat,
-    this.lon,
-    this.displayName,
-    this.searchResultClass,
-    this.type,
-    this.importance,
-    this.icon,
+    required this.placeId,
+    required this.licence,
+    required this.osmType,
+    required this.osmId,
+    required this.boundingbox,
+    required this.lat,
+    required this.lon,
+    required this.displayName,
+    required this.searchResultClass,
+    required this.type,
+    required this.importance,
+    required this.icon,
   });
 
   int placeId;
   String licence;
-  OsmType osmType;
+  OsmType? osmType;
   int osmId;
   List<String> boundingbox;
   String lat;
@@ -53,7 +53,7 @@ class SearchResult {
   Map<String, dynamic> toJson() => {
         "place_id": placeId,
         "licence": licence,
-        "osm_type": osmTypeValues.reverse[osmType],
+        "osm_type": osmTypeValues.reverse?[osmType],
         "osm_id": osmId,
         "boundingbox": List<dynamic>.from(boundingbox.map((x) => x)),
         "lat": lat,
@@ -62,7 +62,7 @@ class SearchResult {
         "class": searchResultClass,
         "type": type,
         "importance": importance,
-        "icon": icon == null ? null : icon,
+        "icon": icon,
       };
 }
 
@@ -73,11 +73,11 @@ final osmTypeValues = EnumValues(
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }
