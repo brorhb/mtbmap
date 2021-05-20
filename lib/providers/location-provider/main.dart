@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:location/location.dart';
+import 'package:mtbmap/providers/openstreetmap-search-provider/main.dart';
 import 'package:rxdart/subjects.dart';
 
 class LocationProvider with ChangeNotifier {
@@ -8,19 +9,38 @@ class LocationProvider with ChangeNotifier {
     init();
   }
 
+  OpenStreetmapProvider? openStreetmapProvider;
+
   void init() async {
     LocationData deviceLocation = await getDeviceLocation();
     if (deviceLocation.latitude != null && deviceLocation.longitude != null) {
       setLocation(
           {"lat": deviceLocation.latitude!, "lon": deviceLocation.longitude!});
     }
+    Stream<LocationData>? stream = await getDeviceLocationStream();
+    if (stream != null) {
+      stream.listen((LocationData event) {
+        if (tracking) {
+          double speed = event.speed ?? 0;
+          double altitude = event.altitude ?? 0;
+          _setSpeed((speed * 3.6).round());
+          _setAltitude(altitude.round());
+          setLocation({"lat": event.latitude!, "lon": event.longitude!});
+        }
+      });
+    } else {
+      stream?.drain();
+    }
   }
 
   // ignore: close_sinks
-  final _selectedLocation = BehaviorSubject<Map<String, double>>();
-  Stream<Map<String, double>> get selectedLocation => _selectedLocation.stream;
+  final _deviceLocation = BehaviorSubject<Map<String, double>>();
+  Stream<Map<String, double>> get deviceLocation => _deviceLocation.stream;
   Function(Map<String, double>) get setLocation => (Map<String, double> val) {
-        _selectedLocation.sink.add({"lat": val["lat"]!, "lon": val["lon"]!});
+        final value = {"lat": val["lat"]!, "lon": val["lon"]!};
+        _deviceLocation.sink.add(value);
+        if (tracking && openStreetmapProvider != null)
+          openStreetmapProvider!.setCenter = value;
       };
   // ignore: close_sinks
   final _speed = BehaviorSubject<int>();
@@ -41,28 +61,16 @@ class LocationProvider with ChangeNotifier {
         _altitude.sink.add(val);
       };
 
-  bool _tracking = false;
-  Function() get tracking => () {
-        return _tracking;
-      };
+  bool _tracking = true;
+  bool get tracking => _tracking;
 
   Function(bool) get toggleTracking => (bool val) async {
         _tracking = val;
-        notifyListeners();
-        Stream<LocationData>? stream = await getDeviceLocationStream();
-        if (val && stream != null) {
-          stream.listen((LocationData event) {
-            if (tracking()) {
-              double speed = event.speed ?? 0;
-              double altitude = event.altitude ?? 0;
-              _setSpeed((speed * 3.6).round());
-              _setAltitude(altitude.round());
-              setLocation({"lat": event.latitude!, "lon": event.longitude!});
-            }
-          });
-        } else {
-          stream?.drain();
+        if (val) {
+          final location = await deviceLocation.first;
+          openStreetmapProvider?.setCenter = location;
         }
+        notifyListeners();
       };
 
   Function() get getDeviceLocation => () async {

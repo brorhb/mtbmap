@@ -24,8 +24,12 @@ class EntryPoint extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<OpenStreetmapProvider>(
               create: (_) => OpenStreetmapProvider()),
-          ChangeNotifierProvider<LocationProvider>(
+          ChangeNotifierProxyProvider<OpenStreetmapProvider, LocationProvider>(
             create: (_) => LocationProvider(),
+            update: (_, openstreetmapProvider, locationProvider) {
+              locationProvider!.openStreetmapProvider = openstreetmapProvider;
+              return locationProvider;
+            },
           ),
           ChangeNotifierProvider<IAPProvider>(
             create: (_) => IAPProvider(),

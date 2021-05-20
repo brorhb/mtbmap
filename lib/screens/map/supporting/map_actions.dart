@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/subjects.dart';
 
 class MapActions extends StatefulWidget {
   const MapActions({Key? key}) : super(key: key);
@@ -11,30 +12,36 @@ class MapActions extends StatefulWidget {
 }
 
 class _MapActionsState extends State<MapActions> {
-  Modes activeMode = Modes.getPosition;
+  BehaviorSubject<Modes> _activeModeStream = BehaviorSubject<Modes>();
+  Stream<Modes> get activeModeStream => _activeModeStream.stream;
+  Function(Modes) get setActiveMode => (val) {
+        _activeModeStream.sink.add(val);
+      };
+
+  @override
+  void initState() {
+    super.initState();
+    setActiveMode(Modes.getPosition);
+  }
 
   // ignore: missing_return
-  IconData _getIcon() {
+  IconData _getIcon(Modes activeMode) {
     switch (activeMode) {
       case Modes.getPosition:
-        return FeatherIcons.unlock;
+        return FeatherIcons.navigation;
       case Modes.lock:
-        return FeatherIcons.lock;
+        return FeatherIcons.compass;
     }
   }
 
-  _action(LocationProvider locationProvider) async {
+  _action(LocationProvider locationProvider, Modes activeMode) async {
     switch (activeMode) {
       case Modes.getPosition:
-        setState(() {
-          activeMode = Modes.lock;
-        });
+        setActiveMode(Modes.lock);
         locationProvider.toggleTracking(true);
         break;
       case Modes.lock:
-        setState(() {
-          activeMode = Modes.getPosition;
-        });
+        setActiveMode(Modes.getPosition);
         locationProvider.toggleTracking(false);
         break;
     }
@@ -43,14 +50,25 @@ class _MapActionsState extends State<MapActions> {
   @override
   Widget build(BuildContext context) {
     LocationProvider locationProvider = Provider.of<LocationProvider>(context);
-    return FloatingActionButton(
-      child: Icon(
-        _getIcon(),
-        color: Theme.of(context).primaryColor,
-      ),
-      onPressed: () => _action(locationProvider),
-      backgroundColor: Colors.white,
-    );
+    return StreamBuilder(
+        stream: locationProvider.deviceLocation,
+        builder: (context, AsyncSnapshot<Map<String, double>> snapshot) {
+          if (snapshot.hasData) {
+            return FloatingActionButton(
+              child: Icon(
+                locationProvider.tracking
+                    ? FeatherIcons.compass
+                    : FeatherIcons.navigation,
+                color: Theme.of(context).primaryColor,
+              ),
+              onPressed: () =>
+                  locationProvider.toggleTracking(!locationProvider.tracking),
+              backgroundColor: Colors.white,
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 }
 

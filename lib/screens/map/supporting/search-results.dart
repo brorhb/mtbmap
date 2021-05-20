@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
 import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/main.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/models/search-result.dart';
 import 'package:provider/provider.dart';
 
 class SearchResults extends StatelessWidget {
-  const SearchResults({Key? key}) : super(key: key);
+  final MapController mapController;
+  const SearchResults({Key? key, required this.mapController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +47,7 @@ class SearchResults extends StatelessWidget {
                                 double lat = double.parse(item.lat);
                                 double lon = double.parse(item.lon);
                                 locationProvider.toggleTracking(false);
-                                locationProvider
-                                    .setLocation({"lat": lat, "lon": lon});
+                                mapController.move(LatLng(lat, lon), 12);
                                 openStreetmapProvider.clearSearch();
                               },
                             );

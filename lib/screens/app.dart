@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:mtbmap/screens/map/main.dart';
 import 'package:mtbmap/screens/map/supporting/map_actions.dart';
 import 'package:mtbmap/screens/panel/main.dart';
@@ -16,6 +17,8 @@ class _AppState extends State<App> {
   late double _fabHeight;
   late double _panelHeightOpen;
   double _panelHeightClosed = 95.0;
+
+  MapController _mapController = MapController();
 
   @override
   void initState() {
@@ -44,12 +47,12 @@ class _AppState extends State<App> {
           body: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              MapView(),
+              MapView(mapController: _mapController),
               SafeArea(
                 child: Column(
                   children: <Widget>[
                     SearchBox(),
-                    SearchResults(),
+                    SearchResults(mapController: _mapController),
                     Spacer(),
                     /*Row(
                         mainAxisAlignment: MainAxisAlignment.start,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 // import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/models/details.dart';
@@ -35,9 +37,17 @@ class Networking {
     }
   }
 
-  Future<ReverseResult> reverseFetch(double lat, double lon) async {
-    Response response = await _dio.get(
-        "https://nominatim.openstreetmap.org/reverse?format=geojson&lat=$lat&lon=$lon");
-    return reverseResultFromJson(response.data);
+  Future<ReverseResult?> reverseFetch(double lat, double lon) async {
+    try {
+      Response response = await _dio.get(
+          "https://nominatim.openstreetmap.org/reverse?format=geojson&lat=$lat&lon=$lon");
+      if (response.data is Map<String, dynamic>) {
+        print("is map");
+        return reverseResultFromJson(response.data);
+      }
+      throw Exception();
+    } catch (err) {
+      return null;
+    }
   }
 }

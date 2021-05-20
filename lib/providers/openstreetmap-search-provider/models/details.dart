@@ -110,6 +110,11 @@ class Details {
         "centroid": centroid.toJson(),
         "geometry": geometry.toJson(),
       };
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 }
 
 class Centroid {
