@@ -46,7 +46,7 @@ class _MapViewState extends State<MapView> {
 
     FlutterCompass.events?.listen((event) {
       if (locationProvider.tracking) {
-        //widget.mapController.rotate(event.heading ?? 0 - 247);
+        widget.mapController.rotate(-(event.heading ?? 0 / 360));
       }
     });
 
