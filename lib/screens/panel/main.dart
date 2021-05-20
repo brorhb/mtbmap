@@ -100,8 +100,9 @@ class Tips extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                print(productDetails);
-                //iapProvider.buyProduct(productDetails);
+                if (productDetails.length > 0) {
+                  iapProvider.buyProduct(productDetails.first);
+                }
               },
             ),
           )
