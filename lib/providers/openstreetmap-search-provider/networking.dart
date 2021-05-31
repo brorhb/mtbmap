@@ -42,7 +42,7 @@ class Networking {
       Response response = await _dio.get(
           "https://nominatim.openstreetmap.org/reverse?format=geojson&lat=$lat&lon=$lon");
       if (response.data is Map<String, dynamic>) {
-        print("is map");
+        print(response.data);
         return reverseResultFromJson(response.data);
       }
       throw Exception();

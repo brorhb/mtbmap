@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:mtbmap/screens/map/main.dart';
+import 'package:mtbmap/screens/map/supporting/compass.dart';
 import 'package:mtbmap/screens/map/supporting/map_actions.dart';
 import 'package:mtbmap/screens/panel/main.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'map/supporting/search-box.dart';
 import 'map/supporting/search-results.dart';
@@ -29,6 +32,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     _panelHeightOpen = MediaQuery.of(context).size.height * .80;
+    LocationProvider locationProvider = Provider.of<LocationProvider>(context);
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -51,8 +55,29 @@ class _AppState extends State<App> {
               SafeArea(
                 child: Column(
                   children: <Widget>[
-                    SearchBox(),
-                    SearchResults(mapController: _mapController),
+                    if (locationProvider.tracking == false) SearchBox(),
+                    if (locationProvider.tracking == false)
+                      SearchResults(mapController: _mapController),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 16, 16, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          StreamBuilder(
+                              stream: _mapController.mapEventStream,
+                              builder:
+                                  (context, AsyncSnapshot<MapEvent> snapshot) {
+                                return Compass(
+                                  heading: _mapController.rotation,
+                                  onTap: (int val) {
+                                    locationProvider.toggleTracking(false);
+                                    _mapController.rotate(0);
+                                  },
+                                );
+                              }),
+                        ],
+                      ),
+                    ),
                     Spacer(),
                     /*Row(
                         mainAxisAlignment: MainAxisAlignment.start,

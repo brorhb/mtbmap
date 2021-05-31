@@ -36,6 +36,7 @@ class OpenStreetmapProvider extends ChangeNotifier {
   }
 
   Future<Details?> getDetails(double lat, double lon) async {
+    /*
     ReverseResult? reverseResult = await _networking.reverseFetch(lat, lon);
     if (reverseResult != null) {
       Details details;
@@ -43,6 +44,7 @@ class OpenStreetmapProvider extends ChangeNotifier {
           .fetchDetails(reverseResult.features.first.properties.placeId);
       return details;
     }
+    */
     return null;
   }
 }
