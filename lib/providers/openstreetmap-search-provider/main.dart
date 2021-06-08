@@ -4,7 +4,6 @@ import 'package:mtbmap/utils/debouncer.dart';
 import 'package:rxdart/subjects.dart';
 import "./models/search-result.dart";
 import 'models/details.dart';
-import 'models/reverse-result.dart';
 
 class OpenStreetmapProvider extends ChangeNotifier {
   List<SearchResult> searchResults = [];
@@ -23,12 +22,14 @@ class OpenStreetmapProvider extends ChangeNotifier {
         notifyListeners();
       };
 
+  // ignore: close_sinks
   final _centerMap = BehaviorSubject<Map<String, double>>();
   Stream<Map<String, double>> get centerMap => _centerMap.stream;
   set setCenter(Map<String, double> val) {
     _centerMap.sink.add(val);
   }
 
+  // ignore: close_sinks
   final _centerSearch = BehaviorSubject<Map<String, double>>();
   Stream<Map<String, double>> get centerSearch => _centerSearch.stream;
   set setCenterSearch(Map<String, double> val) {

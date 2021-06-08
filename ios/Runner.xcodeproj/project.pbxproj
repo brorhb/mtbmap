@@ -390,7 +390,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.brurberg.mtbmap;
 				PRODUCT_NAME = "MTBMap Norge";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -533,7 +533,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.brurberg.mtbmap;
 				PRODUCT_NAME = "MTBMap Norge";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -570,7 +570,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.brurberg.mtbmap;
 				PRODUCT_NAME = "MTBMap Norge";
 				PROVISIONING_PROFILE_SPECIFIER = "";

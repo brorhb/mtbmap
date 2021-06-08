@@ -11,7 +11,7 @@ class Speed extends StatelessWidget {
     return StreamBuilder(
       stream: locationProvider.speed,
       builder: (context, AsyncSnapshot<int> snapshot) {
-        if (snapshot.hasData && locationProvider.tracking) {
+        if (snapshot.hasData) {
           return Text(
             "${snapshot.data} kmt",
             style: TextStyle(fontWeight: FontWeight.bold),

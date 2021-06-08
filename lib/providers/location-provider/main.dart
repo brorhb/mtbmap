@@ -10,26 +10,35 @@ class LocationProvider with ChangeNotifier {
   }
 
   OpenStreetmapProvider? openStreetmapProvider;
+  Location _location = Location();
 
   void init() async {
-    LocationData deviceLocation = await getDeviceLocation();
-    if (deviceLocation.latitude != null && deviceLocation.longitude != null) {
-      setLocation(
-          {"lat": deviceLocation.latitude!, "lon": deviceLocation.longitude!});
-    }
-    Stream<LocationData>? stream = await getDeviceLocationStream();
-    if (stream != null) {
-      stream.listen((LocationData event) {
-        if (tracking) {
-          double speed = event.speed ?? 0;
-          double altitude = event.altitude ?? 0;
-          _setSpeed((speed * 3.6).round());
-          _setAltitude(altitude.round());
-          setLocation({"lat": event.latitude!, "lon": event.longitude!});
-        }
-      });
-    } else {
-      stream?.drain();
+    PermissionStatus status = await _getLocationPermission();
+    if (status == PermissionStatus.granted) {
+      LocationData? deviceLocation = await getDeviceLocation();
+      if (deviceLocation?.latitude != null &&
+          deviceLocation?.longitude != null) {
+        setLocation({
+          "lat": deviceLocation!.latitude!,
+          "lon": deviceLocation.longitude!
+        });
+      }
+      Stream<LocationData>? stream = await getDeviceLocationStream();
+      if (stream != null) {
+        stream.listen((LocationData event) {
+          print("got location event");
+          if (trackingLatest) {
+            double speed = event.speed ?? 0;
+            double altitude = event.altitude ?? 0;
+            _setSpeed((speed * 3.6).round());
+            _setAltitude(altitude.round());
+            setLocation(
+                {"lat": event.latitude ?? 0, "lon": event.longitude ?? 0});
+          }
+        });
+      } else {
+        stream?.drain();
+      }
     }
   }
 
@@ -37,9 +46,10 @@ class LocationProvider with ChangeNotifier {
   final _deviceLocation = BehaviorSubject<Map<String, double>>();
   Stream<Map<String, double>> get deviceLocation => _deviceLocation.stream;
   Function(Map<String, double>) get setLocation => (Map<String, double> val) {
+        print("new location: $val");
         final value = {"lat": val["lat"]!, "lon": val["lon"]!};
         _deviceLocation.sink.add(value);
-        if (tracking && openStreetmapProvider != null)
+        if (trackingLatest && openStreetmapProvider != null)
           openStreetmapProvider!.setCenter = value;
       };
   // ignore: close_sinks
@@ -61,11 +71,18 @@ class LocationProvider with ChangeNotifier {
         _altitude.sink.add(val);
       };
 
-  bool _tracking = true;
-  bool get tracking => _tracking;
+  // ignore: close_sinks
+  BehaviorSubject<bool> _tracking = BehaviorSubject<bool>.seeded(true);
+  bool _trackingLatest = true;
+  bool get trackingLatest => _trackingLatest;
+  Stream<bool> get tracking => _tracking.stream;
+  set setTracking(val) {
+    _tracking.sink.add(val);
+    _trackingLatest = val;
+  }
 
   Function(bool) get toggleTracking => (bool val) async {
-        _tracking = val;
+        setTracking = val;
         if (val) {
           final location = await deviceLocation.first;
           openStreetmapProvider?.setCenter = location;
@@ -73,51 +90,50 @@ class LocationProvider with ChangeNotifier {
         notifyListeners();
       };
 
+  Future<PermissionStatus> _getLocationPermission() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    _serviceEnabled = await _location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _location.requestService();
+      if (!_serviceEnabled) {
+        return Future.error('Location services are disabled.');
+        ;
+      }
+    }
+
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+      if (_permissionGranted == PermissionStatus.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (_permissionGranted == PermissionStatus.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return _permissionGranted;
+  }
+
   Function() get getDeviceLocation => () async {
-        Location location = new Location();
-
-        bool _serviceEnabled;
-        PermissionStatus _permissionGranted;
-
-        _serviceEnabled = await location.serviceEnabled();
-        if (!_serviceEnabled) {
-          _serviceEnabled = await location.requestService();
-          if (!_serviceEnabled) {
-            return null;
+        try {
+          if (await _getLocationPermission() == PermissionStatus.granted) {
+            return await _location.getLocation();
           }
+        } catch (err) {
+          return null;
         }
-
-        _permissionGranted = await location.hasPermission();
-        if (_permissionGranted == PermissionStatus.denied) {
-          _permissionGranted = await location.requestPermission();
-          if (_permissionGranted != PermissionStatus.granted) {
-            return null;
-          }
-        }
-        return await location.getLocation();
       };
 
   Future<Stream<LocationData>?> getDeviceLocationStream() async {
-    Location location = new Location();
-
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return null;
+    try {
+      if (await _getLocationPermission() == PermissionStatus.granted) {
+        return _location.onLocationChanged;
       }
+    } catch (err) {
+      return null;
     }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return null;
-      }
-    }
-    return location.onLocationChanged;
   }
 }

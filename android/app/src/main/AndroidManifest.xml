@@ -7,6 +7,9 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="MTBMap Norge"

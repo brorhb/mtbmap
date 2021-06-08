@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 // import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/models/details.dart';

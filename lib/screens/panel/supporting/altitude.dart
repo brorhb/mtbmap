@@ -11,7 +11,7 @@ class Altitude extends StatelessWidget {
     return StreamBuilder(
       stream: locationProvider.altitude,
       builder: (context, AsyncSnapshot<int> snapshot) {
-        if (snapshot.hasData && locationProvider.tracking) {
+        if (snapshot.hasData) {
           return Text(
             "${snapshot.data} moh",
             style: TextStyle(fontWeight: FontWeight.bold),

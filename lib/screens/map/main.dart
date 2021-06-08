@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -7,7 +5,6 @@ import 'package:latlong/latlong.dart';
 import 'package:mtbmap/providers/location-provider/main.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/main.dart';
 import 'package:mtbmap/providers/openstreetmap-search-provider/models/details.dart';
-import 'package:mtbmap/providers/openstreetmap-search-provider/models/search-result.dart';
 import 'package:mtbmap/screens/map/supporting/map_marker.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -44,14 +41,14 @@ class _MapViewState extends State<MapView> {
       }
     });
 
-    FlutterCompass.events?.listen((event) {
-      if (locationProvider.tracking) {
+    FlutterCompass.events?.listen((event) async {
+      if (locationProvider.trackingLatest) {
         widget.mapController.rotate(-(event.heading ?? 0 / 360));
       }
     });
 
-    openStreetmapProvider.centerMap.listen((event) {
-      if (locationProvider.tracking) {
+    openStreetmapProvider.centerMap.listen((event) async {
+      if (locationProvider.trackingLatest) {
         double lat = event["lat"]!;
         double lon = event["lon"]!;
         widget.mapController.move(LatLng(lat, lon), 14);
@@ -116,7 +113,6 @@ class _MapViewState extends State<MapView> {
                       setTappedObject(null);
                     }
                   },
-                  //interactive: !locationProvider.tracking,
                   center: LatLng(lat, lon),
                   zoom: 13.0,
                   maxZoom: 16.0,

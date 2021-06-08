@@ -1,33 +1,36 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class IAPProvider extends ChangeNotifier {
   IAPProvider() {
-    _init();
+    if (Platform.isIOS) {
+      _init();
+    }
   }
 
-  void _init() async {
-    available = await _inAppPurchaseConnection.isAvailable();
+  // ignore: avoid_init_to_null
+  InAppPurchaseConnection? _inAppPurchaseConnection = null;
 
+  void _init() async {
+    _inAppPurchaseConnection = InAppPurchaseConnection.instance;
+    available = await _inAppPurchaseConnection!.isAvailable();
     if (available) {
       await _getProducts();
 
       _subscription =
-          _inAppPurchaseConnection.purchaseUpdatedStream.listen((data) {
+          _inAppPurchaseConnection!.purchaseUpdatedStream.listen((data) {
         for (PurchaseDetails purchase in data) {
           if (purchase.pendingCompletePurchase) {
-            _inAppPurchaseConnection.completePurchase(purchase);
+            _inAppPurchaseConnection!.completePurchase(purchase);
           }
         }
         purchases.addAll(data);
       });
     }
   }
-
-  InAppPurchaseConnection _inAppPurchaseConnection =
-      InAppPurchaseConnection.instance;
 
   bool _available = true;
   bool get available => _available;
@@ -59,14 +62,20 @@ class IAPProvider extends ChangeNotifier {
   }
 
   Future<void> _getProducts() async {
-    Set<String> ids = Set.from(["tip_developer"]);
-    ProductDetailsResponse response =
-        await _inAppPurchaseConnection.queryProductDetails(ids);
-    products = response.productDetails;
+    if (Platform.isIOS) {
+      Set<String> ids = Set.from(["tip_developer"]);
+      ProductDetailsResponse response =
+          await _inAppPurchaseConnection!.queryProductDetails(ids);
+      products = response.productDetails;
+    }
   }
 
   buyProduct(ProductDetails product) async {
-    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
-    await _inAppPurchaseConnection.buyConsumable(purchaseParam: purchaseParam);
+    if (Platform.isIOS) {
+      final PurchaseParam purchaseParam =
+          PurchaseParam(productDetails: product);
+      await _inAppPurchaseConnection!
+          .buyConsumable(purchaseParam: purchaseParam);
+    }
   }
 }
