@@ -1,7 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_compass/flutter_compass.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:mtbmap/LocationProvider.dart';
+import 'package:provider/provider.dart';
 
 class Compass extends StatelessWidget {
   const Compass({Key? key, required this.onTap, this.heading})
@@ -10,38 +11,17 @@ class Compass extends StatelessWidget {
   final Function(int) onTap;
   final double size = 40.0;
 
-  String _getDirection(int val) {
-    if (val >= 0 && val < 22) {
-      return "N";
-    } else if (val >= 22 && val < 67) {
-      return "NØ";
-    } else if (val >= 67 && val < 112) {
-      return "Ø";
-    } else if (val >= 112 && val < 157) {
-      return "SØ";
-    } else if (val >= 157 && val < 202) {
-      return "S";
-    } else if (val >= 202 && val < 247) {
-      return "SV";
-    } else if (val >= 247 && val < 292) {
-      return "V";
-    } else if (val >= 292 && val < 337) {
-      return "NV";
-    } else {
-      return "N";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FlutterCompass.events,
-        builder: (context, AsyncSnapshot<CompassEvent> snapshot) {
+    LocationProvider locationProvider = Provider.of<LocationProvider>(context);
+    return StreamBuilder<Position>(
+        stream: locationProvider.locationStream,
+        builder: (context, AsyncSnapshot snapshot) {
           int direction = heading != null
               ? heading!.toInt()
               : snapshot.data?.heading?.toInt() ?? 0;
           return Transform.rotate(
-            angle: direction * pi / 180,
+            angle: -(direction * pi / 180),
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -69,7 +49,7 @@ class Compass extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        heading != null ? "N" : _getDirection(direction),
+                        "N",
                         style: TextStyle(color: Colors.white),
                       )
                     ],
