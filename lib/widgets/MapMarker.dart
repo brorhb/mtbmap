@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_compass/flutter_compass.dart';
-import 'package:mtbmap/providers/location-provider/main.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:mtbmap/LocationProvider.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
@@ -9,35 +9,37 @@ class MapMarker extends StatelessWidget {
 
   Widget _marker() {
     return Container(
-        height: 25,
-        width: 25,
-        decoration: BoxDecoration(
-            color: Colors.white,
+      height: 25,
+      width: 25,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.black, width: 2)),
+      child: Padding(
+        padding: EdgeInsets.all(3),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.blueAccent,
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.black, width: 2)),
-        child: Padding(
-            padding: EdgeInsets.all(3),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                shape: BoxShape.circle,
-              ),
-            )));
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     LocationProvider locationProvider = Provider.of<LocationProvider>(context);
     return StreamBuilder(
-      stream: locationProvider.direction(),
-      builder: (context, AsyncSnapshot<CompassEvent> snapshot) {
+      stream: locationProvider.locationStream,
+      builder: (context, AsyncSnapshot<Position> snapshot) {
         return Stack(children: <Widget>[
           if (snapshot.hasData)
             Transform(
               transform: Matrix4.rotationZ(pi),
               alignment: Alignment.center,
               child: RotationTransition(
-                turns: AlwaysStoppedAnimation(snapshot.data!.heading! / 360),
+                turns: AlwaysStoppedAnimation(snapshot.data!.heading / 360),
                 child:
                     CustomPaint(size: Size(100, 100), painter: DrawTriangle()),
               ),
